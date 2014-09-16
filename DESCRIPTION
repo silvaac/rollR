@@ -1,0 +1,13 @@
+Package: rollR
+Title: Rolling window apply and related functions
+Version: 0.1
+Authors@R: "Christian Silva <csilva@idatafactory.com>"
+Description: Joins in one package fast rolling windows functions
+Depends:
+    R (>= 3.0.2),xts
+Imports:
+    lubridate,RcppRoll
+Suggests:
+    RQuantLib,snowfall,testthat
+License: GPL-2
+LazyData: true
