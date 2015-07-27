@@ -134,3 +134,34 @@ ma <- function(x,n){
     xx = rbind(fill,ma)
     return(xts(xx,order.by=index(x)))    
 }
+#' Resample a xts object into at the end of the month(EOM)
+#'
+#' This function should have basically the same functionality to xts to.monthly with OHLC=FALSE
+#' We have found occasional errors with xts::to.monthly most probably due to the date time class. 
+#' Therefore this code uses lubridate instead and works only for data without time info. We include the last
+#' point of the time series even if it is not the end of the month... 
+#' @param R input xts time series.
+#' @return xts matrix with resampled time series
+#' @examples 
+#' sampleEOM(xts(1:100,Sys.Date()+1:100))
+#' @export
+sampleEOM <- function(R){
+  dates = index(R)
+  eom = abs(c(diff(lubridate::month(dates)),1))>0
+  return(R[eom,])
+}
+#' Resample a xts object into weekday
+#'
+#' This function is approx xts::to.weekly but makes sure to use only mondays, ....
+#' @param R input xts time series.
+#' @param weekday weekday to be as a number form 1:sunday to 7
+#' @return xts matrix with resampled time series
+#' @examples 
+#' sampleWeekday(xts(1:100,Sys.Date()+1:100))
+#' @export
+sampleWeekday <- function(R,weekday=2){
+  dates = index(R)
+  whatDay = lubridate::wday(dates)==weekday
+  return(R[whatDay,])
+}
+
